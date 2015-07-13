@@ -14,7 +14,7 @@
 
 附：WS02的产品架构(好大的盘子!):
 
-[[http://b.content.wso2.com/sites/all/themes/wso2-v6/images/wso2-platform-diagram.png]]
+![](http://b.content.wso2.com/sites/all/themes/wso2-v6/images/wso2-platform-diagram.png)
 
 
 ## 0. 从零开始
@@ -78,8 +78,9 @@ ESZ的协议支持描述如下:
 
 ## 0.5 计费
 
-离线计费: API调用时生成计费日志，根据计费日志离线计费。
-在线计费: 基于Redis或Berkeley DB的实时计费。
+1. 离线计费: API调用时生成计费日志，根据计费日志离线计费。
+2. 在线计费: 基于Redis或Berkeley DB的实时计费。
+
 
 参考：WSO2中，API Manager通过配合BAM实现计费。（BAM还做其它很多事儿)
 ![](res/WSO2.billing.png)

@@ -31,5 +31,7 @@
 
     <modules>
         <module>api-gateway</module>
+        <module>sdk</module>
+        <module>api-example-weibo</module>
     </modules>
 </project>

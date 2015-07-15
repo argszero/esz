@@ -13,24 +13,16 @@ import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletCon
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan("com.github.esz.api.gateway")
+@ComponentScan("com.github.esz")
 @EnableScheduling
-@Controller
 public class Main {
+
     private static Logger logger = LoggerFactory.getLogger(Main.class);
     @Value("${server.port:8080}")
     private int port;
@@ -40,12 +32,12 @@ public class Main {
             @Value("${keystore.file}") String keystoreFile,
             @Value("${keystore.pass}") String keystorePass) throws Exception {
         File file = new File(keystoreFile);
-        if(!file.exists()){
+        if (!file.exists()) {
             FileUtils.copyURLToFile(getClass().getResource("/keystore.p12"), file);
         }
 
         String absoluteKeystoreFile = file.getAbsolutePath();
-        logger.info("KeystoreFile:"+absoluteKeystoreFile);
+        logger.info("KeystoreFile:" + absoluteKeystoreFile);
 
         return (ConfigurableEmbeddedServletContainer container) -> {
             TomcatEmbeddedServletContainerFactory tomcat = (TomcatEmbeddedServletContainerFactory) container;
@@ -65,18 +57,6 @@ public class Main {
             );
 
         };
-    }
-    @RequestMapping("/api/{user}/{path}/**")
-    @ResponseBody
-    public String api(@PathVariable String user,HttpServletRequest request) {
-        String servletPath = request.getServletPath();
-        String path = servletPath.substring(("/api"+user+"/").length());
-        return "user:"+user+",path:"+path;
-    }
-    @RequestMapping("/api/esz/time")
-    @ResponseBody
-    public String getTime() {
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
     }
 
     public static void main(String[] args) {
